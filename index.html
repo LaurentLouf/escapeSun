@@ -33,6 +33,14 @@
         var map;
         var user_marker;
 
+        function rad2deg(value) {
+            return value * 180 / Math.PI;
+        }
+
+        function deg2rad(value) {
+            return value * Math.PI / 180;
+        }
+
         function onLocationFound(e) {
             // User position
             console.log("User position " + e.latlng);
@@ -42,7 +50,7 @@
 
 
         function getRoadColor(sun_azimuth, road_bearing) {
-            var angle_difference = Math.abs(sun_azimuth - road_bearing);
+            var angle_difference = sun_azimuth - road_bearing;
             var sin = Math.abs(Math.sin(angle_difference));
             var red = Math.round(255 * (1 - sin));
             var blue = Math.round(255 * sin);
@@ -58,10 +66,9 @@
                     (first_coordinates[0] + road_chunk[i_coordinates][0]) / 2
                 );
                 // The library gives an azimuth with 0 for south and 3Pi/4 as northwest, change the value to have 0 as north
-                // and perform the conversion to degrees
-                sun_position.azimuth = Math.round((sun_position.azimuth + Math.PI) * 180 / Math.PI);
+                sun_position.azimuth = (sun_position.azimuth + Math.PI);
 
-                var road_chunk_bearing = Math.round(turf.bearing(
+                var road_chunk_bearing = deg2rad(turf.bearing(
                     turf.point([first_coordinates[1], first_coordinates[0]]),
                     turf.point([road_chunk[i_coordinates][1], road_chunk[i_coordinates][0]])
                 ));
@@ -72,7 +79,7 @@
                         [first_coordinates[1], first_coordinates[0]],
                         [road_chunk[i_coordinates][1], road_chunk[i_coordinates][0]]
                     ], { color: road_color, opacity: 0.90 });
-                polyline.bindPopup("Sun azimuth " + sun_position.azimuth + "°\r\nRoad bearing " + road_chunk_bearing + "°\r\ncolor " + road_color);
+                polyline.bindPopup("Sun azimuth " + rad2deg(sun_position.azimuth) + "°<br/>Road bearing " + rad2deg(road_chunk_bearing) + "°<br/>color " + road_color);
                 polyline.addTo(map);
                 first_coordinates = road_chunk[i_coordinates];
             }
