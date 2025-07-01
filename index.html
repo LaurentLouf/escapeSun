@@ -43,7 +43,7 @@
 
         function getRoadColor(sun_azimuth, road_bearing) {
             var angle_difference = (Math.abs(sun_azimuth - road_bearing) % 180) / 180;
-            return '#' + (255 * (1 - angle_difference)).toString(16) + + '00' + (255 * angle_difference).toString(16) + '99';
+            return '#' + (255 * (1 - angle_difference)).toString(16) + + '00' + (255 * angle_difference).toString(16);
         }
 
         function addRoadWithSUnIndication(road_chunk) {
@@ -67,7 +67,7 @@
                     [
                         [first_coordinates[1], first_coordinates[0]],
                         [road_chunk[i_coordinates][1], road_chunk[i_coordinates][0]]
-                    ], { color: getRoadColor(sun_position.azimuth, road_chunk_bearing) }).addTo(map);
+                    ], { color: getRoadColor(sun_position.azimuth, road_chunk_bearing), opacity: 0.5 }).addTo(map);
                 first_coordinates = road_chunk[i_coordinates];
             }
         }
