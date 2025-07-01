@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Voies ensoleillées</title>
+    <title>Voies ensoleillÃ©es</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -59,12 +59,12 @@
                 );
                 // The library gives an azimuth with 0 for south and 3Pi/4 as northwest, change the value to have 0 as north
                 // and perform the conversion to degrees
-                sun_position.azimuth = (sun_position.azimuth + Math.PI) * 180 / Math.PI;
+                sun_position.azimuth = Math.round((sun_position.azimuth + Math.PI) * 180 / Math.PI);
 
-                var road_chunk_bearing = turf.bearing(
+                var road_chunk_bearing = Math.round(turf.bearing(
                     turf.point([first_coordinates[1], first_coordinates[0]]),
                     turf.point([road_chunk[i_coordinates][1], road_chunk[i_coordinates][0]])
-                );
+                ));
 
                 var road_color = getRoadColor(sun_position.azimuth, road_chunk_bearing);
                 var polyline = L.polyline(
@@ -72,7 +72,7 @@
                         [first_coordinates[1], first_coordinates[0]],
                         [road_chunk[i_coordinates][1], road_chunk[i_coordinates][0]]
                     ], { color: road_color, opacity: 0.90 });
-                polyline.bindPopup("Sun azimuth " + sun_position.azimuth + "°, road bearing " + road_chunk_bearing + "°, color " + road_color);
+                polyline.bindPopup("Sun azimuth " + sun_position.azimuth + "Â°, road bearing " + road_chunk_bearing + "Â°, color " + road_color);
                 polyline.addTo(map);
                 first_coordinates = road_chunk[i_coordinates];
             }
