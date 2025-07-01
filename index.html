@@ -47,10 +47,14 @@
             for (var i_coordinates = 1; i_coordinates < road_chunk.length; i_coordinates++) {
                 var sun_position = SunCalc.getPosition(
                     Date.now(),
-                    (first_coordinates[0] + road_chunk[i_coordinates][0]) / 2,
-                    (first_coordinates[1] + road_chunk[i_coordinates][1]) / 2
+                    (first_coordinates[1] + road_chunk[i_coordinates][1]) / 2,
+                    (first_coordinates[0] + road_chunk[i_coordinates][0]) / 2
                 );
-                var polyline = L.polyline([first_coordinates, road_chunk[i_coordinates]], { color: 'red' }).addTo(map);
+                var polyline = L.polyline(
+                    [
+                        [first_coordinates[1], first_coordinates[0]],
+                        [road_chunk[i_coordinates][1], road_chunk[i_coordinates][0]]
+                    ], { color: 'red' }).addTo(map);
                 first_coordinates = road_chunk[i_coordinates];
             }
         }
