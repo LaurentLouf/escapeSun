@@ -41,6 +41,11 @@
         }
 
 
+        function getRoadColor(sun_azimuth, road_bearing) {
+            var angle_difference = (abs(sun_azimuth - road_bearing) % 180) / 180;
+            return '#' + (255 * angle_difference).toString(16) + + '00' + (255 * (1 - angle_difference)).toString(16) + '99';
+        }
+
         function addRoadWithSUnIndication(road_chunk) {
             console.log(road_chunk);
             var first_coordinates = road_chunk[0];
@@ -50,11 +55,20 @@
                     (first_coordinates[1] + road_chunk[i_coordinates][1]) / 2,
                     (first_coordinates[0] + road_chunk[i_coordinates][0]) / 2
                 );
+                // The library gives an azimuth with 0 for south and 3Pi/4 as northwest, change the value to have 0 as north
+                // and perform the conversion to degrees
+                sun_position.azimuth = (sun_position.azimuth + Math.PI) * 180 / Math.PI;
+
+                var road_chunk_bearing = turf.bearing(
+                    turf.point([first_coordinates[1], first_coordinates[0]]),
+                    turf.point([road_chunk[i_coordinates][1], road_chunk[i_coordinates][0]])
+                );
+
                 var polyline = L.polyline(
                     [
                         [first_coordinates[1], first_coordinates[0]],
                         [road_chunk[i_coordinates][1], road_chunk[i_coordinates][0]]
-                    ], { color: 'red' }).addTo(map);
+                    ], { color: getRoadColor(sun_position.azimuth, road_chunk_bearing) }).addTo(map);
                 first_coordinates = road_chunk[i_coordinates];
             }
         }
