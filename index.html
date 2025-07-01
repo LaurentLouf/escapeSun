@@ -43,7 +43,7 @@
 
         function getRoadColor(sun_azimuth, road_bearing) {
             var angle_difference = (Math.abs(sun_azimuth - road_bearing) % 180) / 180;
-            return '#' + (255 * (1 - angle_difference)).toString(16) + + '00' + (255 * angle_difference).toString(16);
+            return '#' + Math.round(255 * (1 - angle_difference)).toString(16).padStart(2, '0') + '00' + Math.round(255 * angle_difference).toString(16).padStart(2, '0');
         }
 
         function addRoadWithSUnIndication(road_chunk) {
