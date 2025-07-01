@@ -53,9 +53,11 @@
                 console.log(json);
                 json.features.forEach(road => {
                     console.log(road);
-                    road.geometry.coordinates.forEach(road_chunk => {
-                        console.log(road_chunk);
-                    })
+                    if (road.geometry.type == "LineString") {
+                    }
+                    else if (road.geometry.type == "MultiLineString")
+                        road.geometry.coordinates.forEach(road_chunk => {
+                        })
                 });
 
                 // Locate the user on opening of the app
