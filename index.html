@@ -47,7 +47,6 @@
         }
 
         function addRoadWithSUnIndication(road_chunk) {
-            console.log(road_chunk);
             var first_coordinates = road_chunk[0];
             for (var i_coordinates = 1; i_coordinates < road_chunk.length; i_coordinates++) {
                 var sun_position = SunCalc.getPosition(
@@ -83,9 +82,7 @@
         fetch('data/voie.geojson')
             .then((response) => response.json())
             .then((json) => {
-                console.log(json);
                 json.features.forEach(road => {
-                    console.log(road);
                     if (road.geometry.type == "LineString") {
                         addRoadWithSUnIndication(road.geometry.coordinates);
                     }
